@@ -3,9 +3,10 @@ import InteractiveShapes from './InteractiveShapes';
 
 function App() {
   const BOX_DATA = [
-    [1, 1, 1],
-    [1, 0, 1],
-    [1, 1, 1],
+    [1, 1, 1, 1],
+    [1, 0, 1, 1],
+    [1, 1, 0, 1],
+    [1, 1, 1, 1],
   ];
 
   return (

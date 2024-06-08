@@ -4,6 +4,7 @@ const InteractiveShapes = ({ BOX_DATA: twoDArr }) => {
   const [queue, setQueue] = useState([]);
   const [arrColorData, setAColorData] = useState(twoDArr.map((arr) => (ele) => false));
   const maxLength = useRef(0);
+  const [gripTemplateCols, setGTC] = useState(null);
 
   const animate = useCallback(
     (i, queue) => {
@@ -26,8 +27,9 @@ const InteractiveShapes = ({ BOX_DATA: twoDArr }) => {
       }
     }
 
+    setGTC(twoDArr[0].reduce((accu, curr) => accu + '60px ', ''));
     maxLength.current = count;
-  }, [twoDArr]);
+  }, [twoDArr, setGTC]);
 
   useEffect(() => {
     if (queue.length !== 0 && queue.length === maxLength.current) {
@@ -56,29 +58,32 @@ const InteractiveShapes = ({ BOX_DATA: twoDArr }) => {
     ]);
   };
 
-  return twoDArr.map((arr, row) => (
-    <div
-      key={row}
-      style={{
-        display: 'grid',
-        gridTemplateColumns: '60px 60px 60px',
-      }}
-    >
-      {arr.map((ele, col) => (
-        <div
-          key={col}
-          style={{
-            width: '50px',
-            height: '50px',
-            border: `1px solid ${ele === 1 ? 'grey' : 'transparent'}`,
-            marginBottom: '10px',
-            background: arrColorData[row] && arrColorData[row][col] ? 'lightgreen' : '#fff',
-          }}
-          onClick={() => fillColor(row, col)}
-        ></div>
-      ))}
-    </div>
-  ));
+  return (
+    gripTemplateCols &&
+    twoDArr.map((arr, row) => (
+      <div
+        key={row}
+        style={{
+          display: 'grid',
+          gridTemplateColumns: gripTemplateCols,
+        }}
+      >
+        {arr.map((ele, col) => (
+          <div
+            key={col}
+            style={{
+              width: '50px',
+              height: '50px',
+              border: `1px solid ${ele === 1 ? 'grey' : 'transparent'}`,
+              marginBottom: '10px',
+              background: arrColorData[row] && arrColorData[row][col] ? 'lightgreen' : '#fff',
+            }}
+            onClick={() => fillColor(row, col)}
+          ></div>
+        ))}
+      </div>
+    ))
+  );
 };
 
 export default InteractiveShapes;
